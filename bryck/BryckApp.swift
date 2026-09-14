@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct BrickApp: App {
+struct BryckApp: App {
 
     @StateObject private var controller = ShieldController()
     @Environment(\.scenePhase) private var scenePhase
@@ -11,7 +11,7 @@ struct BrickApp: App {
             ContentView()
                 .environmentObject(controller)
                 .onChange(of: scenePhase) { _, phase in
-                    // The band toggles via ToggleBrickIntent, in a separate
+                    // The band toggles via ToggleBryckIntent, in a separate
                     // process, so this instance can be stale on return.
                     if phase == .active { controller.refreshFromStorage() }
                 }

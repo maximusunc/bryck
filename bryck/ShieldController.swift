@@ -4,20 +4,20 @@ import FamilyControls
 import ManagedSettings
 
 extension ManagedSettingsStore.Name {
-    static let brick = Self("brick")
+    static let bryck = Self("bryck")
 }
 
 @MainActor
 final class ShieldController: ObservableObject {
 
-    private let store = ManagedSettingsStore(named: .brick)
+    private let store = ManagedSettingsStore(named: .bryck)
     private let defaults = UserDefaults.standard
 
     private enum Key {
-        static let selection = "brick.selection"
-        static let isBricked = "brick.isBricked"
-        static let token = "brick.token"
-        static let tokenProven = "brick.tokenProven"
+        static let selection = "bryck.selection"
+        static let isBricked = "bryck.isBricked"
+        static let token = "bryck.token"
+        static let tokenProven = "bryck.tokenProven"
     }
 
     /// Secret the Shortcuts automation has to present. Generated once, on

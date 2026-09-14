@@ -7,30 +7,51 @@ does essentially nothing in the Simulator, so don't bother testing there.
 
 ---
 
+## Coming from the old "Brick" build
+
+The bundle identifier changed with the rename, so iOS treats this as a different app
+entirely. It installs *alongside* the old one rather than over it, and none of the old
+app's state carries across.
+
+**Unbrick before you install this.** The old app's shields live in a `ManagedSettingsStore`
+named `brick`, which this build knows nothing about. If you install while bricked, those
+shields stay up and only the old app — or deleting it — can clear them.
+
+Then, in order:
+
+1. Tap the band to unbrick on the old build.
+2. Delete the old **Brick** app.
+3. Build and run this one.
+4. Grant Screen Time access again, pick your apps again.
+5. Open **Band setup** — the key is newly generated — and paste it into the Shortcuts
+   automation, replacing the old action with **bryck › Toggle bryck**.
+
+---
+
 ## 1. Create the project
 
 Xcode → **File → New → Project → iOS → App**
 
-- Product Name: `Brick`  (the Xcode target keeps this name; the home screen label is
-  set separately by `INFOPLIST_KEY_CFBundleDisplayName = bryck`)
+- Product Name: `bryck`
 - Interface: **SwiftUI**
 - Language: **Swift**
 - Storage: **None**
 
-Xcode generates `BrickApp.swift` and `ContentView.swift`. Replace both with the versions
-in `Sources/`, and drag in `ShieldController.swift` (check "Copy items if needed").
+Xcode generates `bryckApp.swift` and `ContentView.swift`. Replace them with the files in
+`bryck/` — `BryckApp.swift`, `ContentView.swift`, `ShieldController.swift`,
+`AutomationSetupView.swift` and `ToggleBryckIntent.swift`.
 
 ---
 
 ## 2. Signing with a free account
 
-Select the **Brick** target → **Signing & Capabilities**.
+Select the **bryck** target → **Signing & Capabilities**.
 
 - Check **Automatically manage signing**
 - Team: click the dropdown → **Add an Account…** → sign in with your Apple ID →
   a team called *"Your Name (Personal Team)"* appears. Pick it.
 - Bundle Identifier: change it to something globally unique, e.g.
-  `com.yourname.brick`. Xcode will reject a duplicate.
+  `com.yourname.bryck`. Xcode will reject a duplicate.
 
 ---
 
@@ -45,24 +66,12 @@ error like *"Provisioning profile doesn't include the com.apple.developer.family
 entitlement"*, see **Troubleshooting** below — this is the step most likely to bite on a
 personal team.
 
-`Sources/Brick.entitlements` is included in case you'd rather add the file manually
-(drag it in, then set **Build Settings → Code Signing Entitlements** to `Brick/Brick.entitlements`).
+`bryck/bryck.entitlements` is there in case you'd rather add the file manually (drag it
+in, then set **Build Settings → Code Signing Entitlements** to `bryck/bryck.entitlements`).
 
 ---
 
-## 4. Register the URL scheme
-
-Target → **Info** tab → scroll to **URL Types** → **+**
-
-- Identifier: `com.yourname.brick`
-- URL Schemes: `brick`
-- Role: Editor
-
-This is what lets the Shortcuts automation reach the app.
-
----
-
-## 5. Build to the phone
+## 4. Build to the phone
 
 1. Plug in the iPhone, select it as the run destination, press **⌘R**.
 2. First run fails with *"Untrusted Developer."* On the phone:
@@ -71,7 +80,7 @@ This is what lets the Shortcuts automation reach the app.
 4. The app asks for Screen Time access on launch. Approve it. (If you miss the prompt,
    the "Grant Screen Time access" button re-triggers it.)
 
-The app deliberately has no Brick/Unbrick button — the band is the only switch, and the
+The app deliberately has no brick/unbrick button — the band is the only switch, and the
 app list locks itself while you're bricked. To test before the band is wired up, pick a
 couple of apps, then make a throwaway shortcut with the **bryck › Toggle bryck** action
 and the key from **Band setup**. Run it, and go try to open one of the blocked apps: you
@@ -79,7 +88,7 @@ should get Apple's shield screen. Run it again to confirm it lifts.
 
 ---
 
-## 6. Wire up the MagicBand
+## 5. Wire up the MagicBand
 
 Shortcuts → **Automation** → **+** → **NFC** → **Scan** → tap the band → name it "bryck".
 
@@ -135,7 +144,7 @@ Program is the only way past it — there's no workaround. Everything else here 
 unchanged once you switch the team.
 
 **"Publishing changes from background threads" purple warnings.**
-Add `@MainActor` to the `BrickApp` struct.
+Add `@MainActor` to the `BryckApp` struct.
 
 **Shield doesn't lift after Unbrick.** Force-quit and reopen the shielded app. iOS
 sometimes keeps the shield view alive in a suspended app.

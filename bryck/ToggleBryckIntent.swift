@@ -1,9 +1,9 @@
 import AppIntents
 
 /// The band's entry point. Runs from the Shortcuts NFC automation without
-/// bringing Brick to the foreground — the point being that once the app list
+/// bringing bryck to the foreground — the point being that once the app list
 /// is set, you never have to open the app again.
-struct ToggleBrickIntent: AppIntent {
+struct ToggleBryckIntent: AppIntent {
 
     // Computed and nonisolated so these satisfy AppIntent's requirements
     // regardless of the target's default actor isolation.
@@ -27,13 +27,13 @@ struct ToggleBrickIntent: AppIntent {
         // both of which outlive any one process.
         let controller = ShieldController()
         guard controller.toggle(withKey: key) else {
-            throw ToggleBrickError.wrongKey
+            throw ToggleBryckError.wrongKey
         }
         return .result()
     }
 }
 
-enum ToggleBrickError: Error, CustomLocalizedStringResourceConvertible {
+enum ToggleBryckError: Error, CustomLocalizedStringResourceConvertible {
     case wrongKey
 
     var localizedStringResource: LocalizedStringResource {
