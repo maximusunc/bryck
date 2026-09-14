@@ -84,7 +84,7 @@ final class ShieldController: ObservableObject {
             isAuthorized = true
         } catch {
             isAuthorized = false
-            print("Brick: authorization failed — \(error)")
+            print("bryck: authorization failed — \(error)")
         }
     }
 

@@ -67,7 +67,7 @@ struct ContentView: View {
 
     private var hint: String {
         guard controller.isAuthorized else {
-            return "Brick needs Screen Time access before it can block anything."
+            return "bryck needs Screen Time access before it can block anything."
         }
         if controller.isBricked {
             return "Tap the MagicBand to the top back of the phone to unbrick.\nThe app list stays locked until you do."

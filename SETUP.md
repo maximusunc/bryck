@@ -1,4 +1,4 @@
-# Brick — MVP1 setup
+# bryck — MVP1 setup
 
 A MagicBand-toggled app shield. Four files, one Xcode project, a free developer account.
 
@@ -11,7 +11,8 @@ does essentially nothing in the Simulator, so don't bother testing there.
 
 Xcode → **File → New → Project → iOS → App**
 
-- Product Name: `Brick`
+- Product Name: `Brick`  (the Xcode target keeps this name; the home screen label is
+  set separately by `INFOPLIST_KEY_CFBundleDisplayName = bryck`)
 - Interface: **SwiftUI**
 - Language: **Swift**
 - Storage: **None**
@@ -72,7 +73,7 @@ This is what lets the Shortcuts automation reach the app.
 
 The app deliberately has no Brick/Unbrick button — the band is the only switch, and the
 app list locks itself while you're bricked. To test before the band is wired up, pick a
-couple of apps, then make a throwaway shortcut with the **Brick › Toggle Brick** action
+couple of apps, then make a throwaway shortcut with the **bryck › Toggle bryck** action
 and the key from **Band setup**. Run it, and go try to open one of the blocked apps: you
 should get Apple's shield screen. Run it again to confirm it lifts.
 
@@ -80,9 +81,9 @@ should get Apple's shield screen. Run it again to confirm it lifts.
 
 ## 6. Wire up the MagicBand
 
-Shortcuts → **Automation** → **+** → **NFC** → **Scan** → tap the band → name it "Brick".
+Shortcuts → **Automation** → **+** → **NFC** → **Scan** → tap the band → name it "bryck".
 
-Then for the action: **Brick › Toggle Brick**, and paste the key from the app's
+Then for the action: **bryck › Toggle bryck**, and paste the key from the app's
 **Band setup** screen into the action's **Key** field.
 
 The key is generated once, on first launch, and lives only on the phone. Without it the

@@ -73,8 +73,8 @@ struct AutomationSetupView: View {
     }
 
     private let instructions = [
-        "Automation › your Brick automation › edit its actions.",
-        "Replace the action with Brick › Toggle Brick.",
+        "Automation › your bryck automation › edit its actions.",
+        "Replace the action with bryck › Toggle bryck.",
         "Paste the key into the action's Key field.",
         "Leave Run Immediately on and Notify When Run off.",
         "Tap the band to test — nothing should open."

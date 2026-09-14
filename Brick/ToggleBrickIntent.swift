@@ -7,10 +7,10 @@ struct ToggleBrickIntent: AppIntent {
 
     // Computed and nonisolated so these satisfy AppIntent's requirements
     // regardless of the target's default actor isolation.
-    nonisolated static var title: LocalizedStringResource { "Toggle Brick" }
+    nonisolated static var title: LocalizedStringResource { "Toggle bryck" }
 
     nonisolated static var description: IntentDescription {
-        IntentDescription("Bricks or unbricks your chosen apps. Needs the key from Brick's Band setup screen.")
+        IntentDescription("Bricks or unbricks your chosen apps. Needs the key from bryck's Band setup screen.")
     }
 
     /// The whole reason this intent exists. With this true, iOS would
@@ -37,6 +37,6 @@ enum ToggleBrickError: Error, CustomLocalizedStringResourceConvertible {
     case wrongKey
 
     var localizedStringResource: LocalizedStringResource {
-        "That key doesn't match this installation of Brick."
+        "That key doesn't match this installation of bryck."
     }
 }
