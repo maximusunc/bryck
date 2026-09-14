@@ -90,10 +90,16 @@ final class ShieldController: ObservableObject {
 
     // MARK: - The key
 
-    /// Reading the key while bricked would make it no harder to bypass than
-    /// the button it replaced, so it's hidden once the automation has proved
-    /// itself.
-    var canRevealKey: Bool { !isBricked || !tokenProven }
+    /// Drives the setup button. Stays up until the band has actually worked
+    /// once — including while bricked, so updating the app mid-brick can't
+    /// strand you with a stale automation and no way to read the new key.
+    var needsBandSetup: Bool { !tokenProven }
+
+    /// Afterwards the key comes off the main screen for good; there's no
+    /// reason to look at it again. Long-pressing the status icon brings it
+    /// back if the automation ever needs rebuilding — but never while
+    /// bricked, which is the only time the key is worth anything.
+    var canRevealKeyOnDemand: Bool { tokenProven && !isBricked }
 
     /// The only way in. Returns false — and changes nothing — if the key is
     /// wrong, which is what a shortcut built without it will hit.

@@ -24,7 +24,7 @@ struct ContentView: View {
             }
             .disabled(!controller.isAuthorized || controller.isBricked)
 
-            if controller.canRevealKey {
+            if controller.needsBandSetup {
                 Button {
                     showSetup = true
                 } label: {
@@ -85,6 +85,11 @@ struct ContentView: View {
 
             Text(controller.isBricked ? "Bricked" : "Open")
                 .font(.largeTitle.weight(.bold))
+        }
+        // Deliberately undiscoverable: the way back to the key if the
+        // automation ever needs rebuilding. Does nothing while bricked.
+        .onLongPressGesture(minimumDuration: 1.5) {
+            if controller.canRevealKeyOnDemand { showSetup = true }
         }
     }
 }

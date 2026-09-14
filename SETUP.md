@@ -95,10 +95,13 @@ makes you confirm a banner, which ruins the whole point.
 Tap the band. Nothing should visibly happen — the intent runs in the background and the
 app never comes to the foreground. Try opening a blocked app to confirm.
 
-**Band setup hides itself once you're bricked**, so the key can't be read at the moment
-you'd most want to cheat. The one exception is before the automation has ever fired
-successfully — until then the screen stays available even while bricked, so updating the
-app mid-brick can't strand you with a stale automation and no way to read the new key.
+**Band setup disappears for good once the band has worked once.** There's no reason to
+look at the key again, so the app stops offering it. Until that first successful tap the
+button stays up even while bricked, so updating the app mid-brick can't strand you with a
+stale automation and no way to read the new key.
+
+If you ever need the key back — rebuilding the automation, a new phone — **long-press the
+lock icon** on the main screen for a second and a half. That works only while unbricked.
 
 Note the ceiling: the key is still sitting in the automation, readable in Shortcuts. This
 buys you friction against impulse, not a lock.
