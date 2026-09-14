@@ -72,9 +72,9 @@ This is what lets the Shortcuts automation reach the app.
 
 The app deliberately has no Brick/Unbrick button — the band is the only switch, and the
 app list locks itself while you're bricked. To test before the band is wired up, pick a
-couple of apps, then open Safari and type `brick://toggle` in the address bar. Go try to
-open one of the blocked apps: you should get Apple's shield screen. Fire `brick://toggle`
-again to confirm it lifts.
+couple of apps, tap **Band setup**, copy the URL, and paste it into Safari's address bar.
+Go try to open one of the blocked apps: you should get Apple's shield screen. Fire the
+same URL again to confirm it lifts.
 
 ---
 
@@ -82,12 +82,21 @@ again to confirm it lifts.
 
 Shortcuts → **Automation** → **+** → **NFC** → **Scan** → tap the band → name it "Brick".
 
-Then for the action: **Open URLs** → `brick://toggle`
+Then for the action: **Open URLs** → paste the URL from the app's **Band setup** screen.
+
+It looks like `brick://toggle?key=<a long random string>`. The key is generated once, on
+first launch, and lives only on the phone. A bare `brick://toggle` is rejected — otherwise
+anyone (including you, at 11pm, in Safari) could unbrick without the band.
 
 Critically, turn **Run Immediately** ON and **Notify When Run** OFF. Otherwise every tap
 makes you confirm a banner, which ruins the whole point.
 
 Tap the band. The app should launch, flip state, and show the new status.
+
+**Band setup hides itself once you're bricked**, so the key can't be read at the moment
+you'd most want to cheat. The one exception is before the automation has ever fired
+successfully — until then the screen stays available even while bricked, so updating the
+app mid-brick can't strand you with a stale automation and no way to read the new URL.
 
 ---
 

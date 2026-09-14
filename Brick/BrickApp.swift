@@ -10,9 +10,9 @@ struct BrickApp: App {
             ContentView()
                 .environmentObject(controller)
                 .onOpenURL { url in
-                    // brick://toggle  — fired by the Shortcuts NFC automation.
-                    guard url.scheme == "brick", url.host == "toggle" else { return }
-                    controller.toggle()
+                    // brick://toggle?key=...  — fired by the Shortcuts NFC
+                    // automation. An unkeyed URL is ignored.
+                    controller.handleToggleURL(url)
                 }
         }
     }

@@ -5,6 +5,7 @@ struct ContentView: View {
 
     @EnvironmentObject private var controller: ShieldController
     @State private var showPicker = false
+    @State private var showSetup = false
 
     var body: some View {
         VStack(spacing: 28) {
@@ -23,6 +24,14 @@ struct ContentView: View {
             }
             .disabled(!controller.isAuthorized || controller.isBricked)
 
+            if controller.canRevealAutomationURL {
+                Button {
+                    showSetup = true
+                } label: {
+                    Label("Band setup", systemImage: "wave.3.right")
+                }
+            }
+
             if !controller.isAuthorized {
                 Button("Grant Screen Time access") {
                     Task { await controller.requestAuthorization() }
@@ -39,6 +48,9 @@ struct ContentView: View {
         }
         .padding(28)
         .familyActivityPicker(isPresented: $showPicker, selection: $controller.selection)
+        .sheet(isPresented: $showSetup) {
+            AutomationSetupView(url: controller.automationURL)
+        }
         .task {
             controller.refreshAuthorizationStatus()
             if !controller.isAuthorized {

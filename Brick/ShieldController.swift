@@ -16,7 +16,20 @@ final class ShieldController: ObservableObject {
     private enum Key {
         static let selection = "brick.selection"
         static let isBricked = "brick.isBricked"
+        static let token = "brick.token"
+        static let tokenProven = "brick.tokenProven"
     }
+
+    /// Secret the Shortcuts automation has to present. Generated once, on
+    /// first launch, and never shown while bricked.
+    let token: String
+
+    /// Set the first time a correctly-keyed URL actually arrives, which is
+    /// proof the automation has been updated. Until then the setup screen
+    /// stays reachable even while bricked, so installing this build in the
+    /// middle of a brick can't strand you with an automation that no longer
+    /// works and no way to read the new URL.
+    @Published private(set) var tokenProven: Bool
 
     /// The apps / categories / sites the user picked.
     @Published var selection: FamilyActivitySelection {
@@ -33,6 +46,11 @@ final class ShieldController: ObservableObject {
     @Published private(set) var isAuthorized = false
 
     init() {
+        let saved = defaults.string(forKey: Key.token)
+        token = (saved?.isEmpty == false) ? saved! : UUID().uuidString.lowercased()
+        if saved != token { defaults.set(token, forKey: Key.token) }
+        tokenProven = defaults.bool(forKey: Key.tokenProven)
+
         // Property observers don't fire during init, so read straight into storage.
         if let data = defaults.data(forKey: Key.selection),
            let decoded = try? JSONDecoder().decode(FamilyActivitySelection.self, from: data) {
@@ -68,6 +86,33 @@ final class ShieldController: ObservableObject {
             isAuthorized = false
             print("Brick: authorization failed — \(error)")
         }
+    }
+
+    // MARK: - The automation URL
+
+    var automationURL: String { "brick://toggle?key=\(token)" }
+
+    /// Reading the key off this screen while bricked would make it no harder
+    /// to bypass than the button it replaced, so it's hidden once the
+    /// automation has proved itself.
+    var canRevealAutomationURL: Bool { !isBricked || !tokenProven }
+
+    /// `brick://toggle?key=...` — the only way in. A bare `brick://toggle`
+    /// typed into Safari is rejected.
+    func handleToggleURL(_ url: URL) {
+        guard url.scheme == "brick", url.host == "toggle" else { return }
+
+        let key = URLComponents(url: url, resolvingAgainstBaseURL: false)?
+            .queryItems?
+            .first { $0.name == "key" }?
+            .value
+        guard let key, key == token else { return }
+
+        if !tokenProven {
+            tokenProven = true
+            defaults.set(true, forKey: Key.tokenProven)
+        }
+        toggle()
     }
 
     // MARK: - The toggle
