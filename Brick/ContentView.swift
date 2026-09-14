@@ -24,7 +24,7 @@ struct ContentView: View {
             }
             .disabled(!controller.isAuthorized || controller.isBricked)
 
-            if controller.canRevealAutomationURL {
+            if controller.canRevealKey {
                 Button {
                     showSetup = true
                 } label: {
@@ -49,7 +49,7 @@ struct ContentView: View {
         .padding(28)
         .familyActivityPicker(isPresented: $showPicker, selection: $controller.selection)
         .sheet(isPresented: $showSetup) {
-            AutomationSetupView(url: controller.automationURL)
+            AutomationSetupView(key: controller.token)
         }
         .task {
             controller.refreshAuthorizationStatus()

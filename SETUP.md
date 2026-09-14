@@ -72,9 +72,9 @@ This is what lets the Shortcuts automation reach the app.
 
 The app deliberately has no Brick/Unbrick button — the band is the only switch, and the
 app list locks itself while you're bricked. To test before the band is wired up, pick a
-couple of apps, tap **Band setup**, copy the URL, and paste it into Safari's address bar.
-Go try to open one of the blocked apps: you should get Apple's shield screen. Fire the
-same URL again to confirm it lifts.
+couple of apps, then make a throwaway shortcut with the **Brick › Toggle Brick** action
+and the key from **Band setup**. Run it, and go try to open one of the blocked apps: you
+should get Apple's shield screen. Run it again to confirm it lifts.
 
 ---
 
@@ -82,21 +82,26 @@ same URL again to confirm it lifts.
 
 Shortcuts → **Automation** → **+** → **NFC** → **Scan** → tap the band → name it "Brick".
 
-Then for the action: **Open URLs** → paste the URL from the app's **Band setup** screen.
+Then for the action: **Brick › Toggle Brick**, and paste the key from the app's
+**Band setup** screen into the action's **Key** field.
 
-It looks like `brick://toggle?key=<a long random string>`. The key is generated once, on
-first launch, and lives only on the phone. A bare `brick://toggle` is rejected — otherwise
-anyone (including you, at 11pm, in Safari) could unbrick without the band.
+The key is generated once, on first launch, and lives only on the phone. Without it the
+action does nothing, so a shortcut you throw together later won't toggle until you go and
+look the key up.
 
 Critically, turn **Run Immediately** ON and **Notify When Run** OFF. Otherwise every tap
 makes you confirm a banner, which ruins the whole point.
 
-Tap the band. The app should launch, flip state, and show the new status.
+Tap the band. Nothing should visibly happen — the intent runs in the background and the
+app never comes to the foreground. Try opening a blocked app to confirm.
 
 **Band setup hides itself once you're bricked**, so the key can't be read at the moment
 you'd most want to cheat. The one exception is before the automation has ever fired
 successfully — until then the screen stays available even while bricked, so updating the
-app mid-brick can't strand you with a stale automation and no way to read the new URL.
+app mid-brick can't strand you with a stale automation and no way to read the new key.
+
+Note the ceiling: the key is still sitting in the automation, readable in Shortcuts. This
+buys you friction against impulse, not a lock.
 
 ---
 

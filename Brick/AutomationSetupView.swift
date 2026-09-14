@@ -1,14 +1,14 @@
 import SwiftUI
 import UIKit
 
-/// Shows the keyed URL to paste into the Shortcuts automation.
+/// Shows the key to paste into the Shortcuts automation.
 ///
 /// Only reachable while unbricked (or before the automation has proved
 /// itself) — if you could read the key mid-brick, it would be no more
 /// friction than the button it replaced.
 struct AutomationSetupView: View {
 
-    let url: String
+    let key: String
 
     @Environment(\.dismiss) private var dismiss
     @State private var copied = false
@@ -17,10 +17,10 @@ struct AutomationSetupView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    Text("The key is what keeps anything else from unbricking you. Without it, typing a URL into Safari would be enough.")
+                    Text("The key is what keeps a shortcut you throw together in a weak moment from unbricking you. Paste it into the automation once.")
                         .foregroundStyle(.secondary)
 
-                    Text(url)
+                    Text(key)
                         .font(.system(.footnote, design: .monospaced))
                         .textSelection(.enabled)
                         .padding(14)
@@ -28,10 +28,10 @@ struct AutomationSetupView: View {
                         .background(.quaternary, in: RoundedRectangle(cornerRadius: 12))
 
                     Button {
-                        UIPasteboard.general.string = url
+                        UIPasteboard.general.string = key
                         copied = true
                     } label: {
-                        Label(copied ? "Copied" : "Copy URL",
+                        Label(copied ? "Copied" : "Copy key",
                               systemImage: copied ? "checkmark" : "doc.on.doc")
                             .frame(maxWidth: .infinity)
                     }
@@ -65,7 +65,7 @@ struct AutomationSetupView: View {
                 }
             }
 
-            Text("This screen disappears once you're bricked, so the key can't be looked up at the moment you'd most want to cheat. Keep a copy somewhere if that worries you.")
+            Text("This screen disappears once you're bricked, so the key can't be looked up at the moment you'd most want to cheat. It stays readable inside the automation itself, though — this is friction, not a lock.")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
                 .padding(.top, 4)
@@ -73,9 +73,10 @@ struct AutomationSetupView: View {
     }
 
     private let instructions = [
-        "Automation › your Brick automation › the Open URLs action.",
-        "Replace the URL with the one above.",
+        "Automation › your Brick automation › edit its actions.",
+        "Replace the action with Brick › Toggle Brick.",
+        "Paste the key into the action's Key field.",
         "Leave Run Immediately on and Notify When Run off.",
-        "Tap the band to test — the status should flip."
+        "Tap the band to test — nothing should open."
     ]
 }

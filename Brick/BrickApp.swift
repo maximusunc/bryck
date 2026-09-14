@@ -4,15 +4,16 @@ import SwiftUI
 struct BrickApp: App {
 
     @StateObject private var controller = ShieldController()
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(controller)
-                .onOpenURL { url in
-                    // brick://toggle?key=...  — fired by the Shortcuts NFC
-                    // automation. An unkeyed URL is ignored.
-                    controller.handleToggleURL(url)
+                .onChange(of: scenePhase) { _, phase in
+                    // The band toggles via ToggleBrickIntent, in a separate
+                    // process, so this instance can be stale on return.
+                    if phase == .active { controller.refreshFromStorage() }
                 }
         }
     }

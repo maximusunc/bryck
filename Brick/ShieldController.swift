@@ -88,37 +88,39 @@ final class ShieldController: ObservableObject {
         }
     }
 
-    // MARK: - The automation URL
+    // MARK: - The key
 
-    var automationURL: String { "brick://toggle?key=\(token)" }
+    /// Reading the key while bricked would make it no harder to bypass than
+    /// the button it replaced, so it's hidden once the automation has proved
+    /// itself.
+    var canRevealKey: Bool { !isBricked || !tokenProven }
 
-    /// Reading the key off this screen while bricked would make it no harder
-    /// to bypass than the button it replaced, so it's hidden once the
-    /// automation has proved itself.
-    var canRevealAutomationURL: Bool { !isBricked || !tokenProven }
-
-    /// `brick://toggle?key=...` — the only way in. A bare `brick://toggle`
-    /// typed into Safari is rejected.
-    func handleToggleURL(_ url: URL) {
-        guard url.scheme == "brick", url.host == "toggle" else { return }
-
-        let key = URLComponents(url: url, resolvingAgainstBaseURL: false)?
-            .queryItems?
-            .first { $0.name == "key" }?
-            .value
-        guard let key, key == token else { return }
+    /// The only way in. Returns false — and changes nothing — if the key is
+    /// wrong, which is what a shortcut built without it will hit.
+    @discardableResult
+    func toggle(withKey key: String) -> Bool {
+        guard key == token else { return false }
 
         if !tokenProven {
             tokenProven = true
             defaults.set(true, forKey: Key.tokenProven)
         }
         toggle()
+        return true
+    }
+
+    /// Picks up a toggle made by the App Intent, which runs in its own
+    /// process and so can't reach this instance.
+    func refreshFromStorage() {
+        let stored = defaults.bool(forKey: Key.isBricked)
+        if stored != isBricked { isBricked = stored }
+        tokenProven = defaults.bool(forKey: Key.tokenProven)
     }
 
     // MARK: - The toggle
 
     /// One tag, one tap: flip whatever the current state is.
-    func toggle() {
+    private func toggle() {
         isBricked.toggle()
         reconcile()
     }

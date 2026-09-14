@@ -10,22 +10,9 @@
 		2892F6B730522EAF0031F4CC /* Brick.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Brick.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		2892F6C9305741D40031F4CC /* Exceptions for "Brick" folder in "Brick" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 2892F6B630522EAF0031F4CC /* Brick */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		2892F6B930522EAF0031F4CC /* Brick */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				2892F6C9305741D40031F4CC /* Exceptions for "Brick" folder in "Brick" target */,
-			);
 			path = Brick;
 			sourceTree = "<group>";
 		};
@@ -270,7 +257,6 @@
 				DEVELOPMENT_TEAM = U37K2R5B4D;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Brick/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -304,7 +290,6 @@
 				DEVELOPMENT_TEAM = U37K2R5B4D;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Brick/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
