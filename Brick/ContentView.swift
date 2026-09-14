@@ -12,24 +12,16 @@ struct ContentView: View {
 
             status
 
-            Button {
-                controller.toggle()
-            } label: {
-                Text(controller.isBricked ? "Unbrick" : "Brick")
-                    .font(.title2.weight(.semibold))
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 16)
-            }
-            .buttonStyle(.borderedProminent)
-            .tint(controller.isBricked ? .green : .red)
-            .disabled(!controller.isAuthorized || controller.selectedCount == 0)
+            // No toggle here on purpose. The band is the only switch — an
+            // on-screen button is always easier to reach than the band, which
+            // defeats the point of having one.
 
             Button {
                 showPicker = true
             } label: {
                 Label(pickerLabel, systemImage: "square.grid.2x2")
             }
-            .disabled(!controller.isAuthorized)
+            .disabled(!controller.isAuthorized || controller.isBricked)
 
             if !controller.isAuthorized {
                 Button("Grant Screen Time access") {
@@ -40,7 +32,7 @@ struct ContentView: View {
 
             Spacer()
 
-            Text("Tap the MagicBand to the top back of the phone to toggle.")
+            Text(hint)
                 .font(.footnote)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -59,6 +51,18 @@ struct ContentView: View {
         controller.selectedCount == 0
             ? "Choose apps to block"
             : "\(controller.selectedCount) selected"
+    }
+
+    private var hint: String {
+        guard controller.isAuthorized else {
+            return "Brick needs Screen Time access before it can block anything."
+        }
+        if controller.isBricked {
+            return "Tap the MagicBand to the top back of the phone to unbrick.\nThe app list stays locked until you do."
+        }
+        return controller.selectedCount == 0
+            ? "Pick some apps, then tap the MagicBand to the top back of the phone to brick."
+            : "Tap the MagicBand to the top back of the phone to brick."
     }
 
     private var status: some View {

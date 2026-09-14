@@ -70,8 +70,11 @@ This is what lets the Shortcuts automation reach the app.
 4. The app asks for Screen Time access on launch. Approve it. (If you miss the prompt,
    the "Grant Screen Time access" button re-triggers it.)
 
-Test it manually before touching NFC: pick a couple of apps, hit **Brick**, then go try to
-open one of them. You should get Apple's shield screen. Hit **Unbrick** and confirm it lifts.
+The app deliberately has no Brick/Unbrick button — the band is the only switch, and the
+app list locks itself while you're bricked. To test before the band is wired up, pick a
+couple of apps, then open Safari and type `brick://toggle` in the address bar. Go try to
+open one of the blocked apps: you should get Apple's shield screen. Fire `brick://toggle`
+again to confirm it lifts.
 
 ---
 
